@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Przenośnia – przeprowadzki w Trójmieście</title>
+<meta name="description" content="Przeprowadzki mieszkań i biur w Gdańsku, Gdyni i Sopocie. Policz koszt przeprowadzki w minutę.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+:root{--karton:#C99B5E;--karton-j:#E8C99B;--tasma:#1C1C1C;--bialy:#FFFDF8;--niebieski:#1F4FD8;--szary:#5B5247;--linia:#D9C3A0;
+  --f:"Familjen Grotesk","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bialy);color:var(--tasma);font-family:var(--f);font-size:1.0625rem;line-height:1.55}
+h1,h2,h3{margin:0;line-height:.95;text-wrap:balance;font-weight:700;letter-spacing:-.035em}
+p{margin:0}
+:focus-visible{outline:3px solid var(--niebieski);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:max(18px,4vw)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-block:16px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:1.6rem;letter-spacing:-.04em;text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px}
+.brand svg{width:34px;height:34px}
+header nav{display:flex;gap:20px;font-weight:500}
+header nav a{text-decoration:none;color:var(--szary)}
+header nav a:hover{color:var(--tasma)}
+
+/* Karton z taśmą */
+.hero{background:var(--karton);position:relative;overflow:hidden;
+  background-image:radial-gradient(circle at 15% 20%,rgba(255,255,255,.12),transparent 40%),repeating-linear-gradient(90deg,rgba(0,0,0,.025) 0 2px,transparent 2px 7px)}
+.hero::before{content:"";position:absolute;left:0;right:0;top:46%;height:clamp(54px,8vw,92px);background:rgba(232,201,155,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.08);transform:rotate(-2deg)}
+.hero .wrap{position:relative;padding-block:clamp(52px,8vw,112px);display:grid;gap:22px}
+.stamp{justify-self:start;border:3px solid var(--tasma);padding:6px 12px;font-weight:700;transform:rotate(-3deg);font-size:.95rem}
+.hero h1{font-size:clamp(3.4rem,1.4rem + 8vw,9.4rem);max-width:8.5em}
+.hero p{font-size:1.25rem;max-width:30em;font-weight:500}
+.arrows{display:flex;gap:6px;font-size:1.8rem;font-weight:700;letter-spacing:-.1em;opacity:.7}
+.btn{font:inherit;font-weight:700;background:var(--tasma);color:var(--bialy);border:0;padding:16px 28px;cursor:pointer;text-decoration:none;display:inline-block;border-radius:4px}
+.btn:hover{background:var(--niebieski)}
+
+section{padding-block:clamp(60px,8vw,108px)}
+h2{font-size:clamp(2.6rem,1.4rem + 4vw,5rem)}
+.lead{font-size:1.15rem;color:var(--szary);max-width:38em;margin-top:16px}
+
+/* Kalkulator */
+.calc .grid{display:grid;gap:36px;margin-top:40px}
+@media(min-width:960px){.calc .grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:start}}
+.fields{display:grid;gap:26px}
+.field{display:grid;gap:10px}
+.field > span{font-weight:700;font-size:1.15rem}
+.field small{color:var(--szary);font-weight:400}
+.seg{display:flex;flex-wrap:wrap;border:2px solid var(--tasma);border-radius:6px;overflow:hidden}
+.seg label{flex:1 1 auto;min-width:68px}
+.seg input{position:absolute;opacity:0}
+.seg span{display:block;text-align:center;padding:11px 10px;cursor:pointer;font-weight:600;border-right:2px solid var(--tasma);height:100%}
+.seg label:last-child span{border-right:0}
+.seg input:checked + span{background:var(--tasma);color:var(--bialy)}
+.seg input:focus-visible + span{outline:3px solid var(--niebieski);outline-offset:-3px}
+.slider{display:flex;align-items:center;gap:14px}
+.slider input{flex:1;accent-color:var(--niebieski)}
+.slider output{font-weight:700;font-size:1.3rem;min-width:4.5em;text-align:right;font-variant-numeric:tabular-nums}
+.floors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.floors label{display:grid;gap:6px;font-weight:600;font-size:.95rem}
+.floors select{font:inherit;padding:10px;border:2px solid var(--tasma);border-radius:6px;background:var(--bialy)}
+.checks{display:grid;gap:10px}
+.checks label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:2px solid var(--linia);border-radius:6px;cursor:pointer}
+.checks input{width:20px;height:20px;accent-color:var(--niebieski);margin-top:2px;flex:none}
+.checks label:has(input:checked){border-color:var(--tasma);background:#FFF5E3}
+.checks b{display:block}
+.checks small{color:var(--szary)}
+
+.quote{position:sticky;top:20px;background:var(--tasma);color:var(--bialy);border-radius:8px;padding:28px;display:grid;gap:18px}
+.quote .price{font-size:clamp(2.6rem,1.8rem + 3vw,4rem);font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.quote .price small{display:block;font-size:.95rem;letter-spacing:0;font-weight:500;color:#C9C2B8;margin-bottom:8px}
+.quote dl{margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid #3A3A3A}
+.quote dl div{padding:14px 10px 0 0}
+.quote dt{font-size:.82rem;color:#C9C2B8}
+.quote dd{margin:0;font-weight:700;font-size:1.25rem}
+.truck{height:70px;position:relative;overflow:hidden}
+.truck svg{height:100%;transition:transform .5s ease}
+.quote .note{font-size:.88rem;color:#C9C2B8}
+.quote .btn{background:var(--karton-j);color:var(--tasma)}
+.quote .btn:hover{background:#fff}
+.sent{background:#2A2A2A;border-radius:6px;padding:12px 14px;font-size:.92rem}
+
+/* Lista pakowania */
+.boxes{background:var(--karton-j);border-top:2px solid var(--tasma);border-bottom:2px solid var(--tasma)}
+.weeks{display:grid;gap:18px;margin-top:40px}
+@media(min-width:860px){.weeks{grid-template-columns:repeat(4,1fr)}}
+.week{background:var(--bialy);border:2px solid var(--tasma);border-radius:6px;padding:20px;display:grid;gap:10px;align-content:start}
+.week h3{font-size:1.5rem}
+.week .when{font-weight:700;color:var(--niebieski)}
+.week ul{margin:0;padding-left:1.1em;display:grid;gap:6px;color:var(--szary)}
+.areas{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.areas span{border:2px solid var(--tasma);border-radius:999px;padding:6px 14px;font-weight:600}
+footer{background:var(--tasma);color:#C9C2B8;padding-block:30px;font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+@media(prefers-reduced-motion:reduce){.truck svg{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="brand" href="#"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M4 11l13-7 13 7v14l-13 7-13-7z" fill="#C99B5E" stroke="#1C1C1C" stroke-width="2.5" stroke-linejoin="round"/><path d="M4 11l13 7 13-7M17 18v14" stroke="#1C1C1C" stroke-width="2.5" fill="none"/><path d="M10 7.5l13 7" stroke="#E8C99B" stroke-width="4"/></svg>Przenośnia</a>
+  <nav aria-label="Menu"><a href="#wycena">Wycena</a><a href="#plan">Plan pakowania</a></nav>
+</div></header>
+
+<main>
+<section class="hero" style="padding:0">
+  <div class="wrap">
+    <span class="stamp">GÓRA ↑ OSTROŻNIE</span>
+    <h1>Przeprowadzka bez stresu i bez obitych mebli</h1>
+    <p>Przenosimy mieszkania i biura w Gdańsku, Sopocie i Gdyni. Pakujemy, rozkręcamy meble, wnosimy na czwarte piętro bez windy. Cenę znasz, zanim przyjedziemy.</p>
+    <div><a class="btn" href="#wycena">Policz koszt przeprowadzki</a></div>
+  </div>
+</section>
+
+<section class="calc" id="wycena">
+  <div class="wrap">
+    <h2>Ile to będzie kosztować?</h2>
+    <p class="lead">Zaznacz, co przewozisz. Cena obejmuje auto, ekipę, folię i pasy. Ostateczną kwotę potwierdzamy po krótkiej rozmowie wideo.</p>
+    <div class="grid">
+      <form class="fields" id="calc">
+        <div class="field"><span>Wielkość mieszkania</span>
+          <div class="seg" role="radiogroup" aria-label="Wielkość mieszkania">
+            <label><input type="radio" name="size" value="0" ><span>Kawalerka</span></label>
+            <label><input type="radio" name="size" value="1" checked><span>2 pokoje</span></label>
+            <label><input type="radio" name="size" value="2"><span>3 pokoje</span></label>
+            <label><input type="radio" name="size" value="3"><span>4+ / dom</span></label>
+          </div>
+        </div>
+        <div class="field"><span>Odległość <small>między adresami</small></span>
+          <div class="slider"><input type="range" id="km" min="1" max="120" value="12" aria-label="Odległość w kilometrach"><output id="kmOut">12 km</output></div>
+        </div>
+        <div class="field"><span>Piętra bez windy</span>
+          <div class="floors">
+            <label>Skąd<select id="from"><option value="0">parter lub winda</option><option value="1">1 piętro</option><option value="2" selected>2 piętro</option><option value="3">3 piętro</option><option value="4">4 piętro</option></select></label>
+            <label>Dokąd<select id="to"><option value="0" selected>parter lub winda</option><option value="1">1 piętro</option><option value="2">2 piętro</option><option value="3">3 piętro</option><option value="4">4 piętro</option></select></label>
+          </div>
+        </div>
+        <div class="field"><span>Dodatkowo</span>
+          <div class="checks">
+            <label><input type="checkbox" id="pack"><span><b>Pakujemy za Ciebie</b><small>kartony, papier i taśma w cenie</small></span></label>
+            <label><input type="checkbox" id="furn"><span><b>Rozkręcanie i skręcanie mebli</b><small>szafy, łóżka, biurka</small></span></label>
+            <label><input type="checkbox" id="piano"><span><b>Pianino albo sejf</b><small>dodatkowe dwie osoby i pasy nośne</small></span></label>
+            <label><input type="checkbox" id="weekend"><span><b>Termin w sobotę</b><small>najczęściej zajęte, dopłata 15%</small></span></label>
+          </div>
+        </div>
+      </form>
+
+      <aside class="quote" aria-live="polite">
+        <p class="price"><small>Szacowany koszt</small><span id="price">–</span></p>
+        <div class="truck"><svg viewBox="0 0 160 70" id="truck" aria-hidden="true"><rect x="2" y="10" width="96" height="44" rx="3" fill="#C99B5E"/><path d="M98 24h30l18 16v14H98z" fill="#E8C99B"/><path d="M106 28h18l10 10h-28z" fill="#1C1C1C"/><circle cx="28" cy="58" r="10" fill="#FFFDF8" stroke="#1C1C1C" stroke-width="4"/><circle cx="124" cy="58" r="10" fill="#FFFDF8" stroke="#1C1C1C" stroke-width="4"/><text x="12" y="38" font-size="11.5" font-weight="700" fill="#1C1C1C" font-family="Familjen Grotesk, sans-serif">PRZENOŚNIA</text></svg></div>
+        <dl><div><dt>Auto</dt><dd id="van">–</dd></div><div><dt>Ekipa</dt><dd id="crew">–</dd></div><div><dt>Czas</dt><dd id="hrs">–</dd></div></dl>
+        <p class="note" id="note"></p>
+        <button class="btn" type="button" id="ask">Poproś o potwierdzenie ceny</button>
+        <p class="sent" id="sent" hidden>To strona pokazowa, więc prośba nie została wysłana. W prawdziwej firmie oddzwonilibyśmy w ciągu godziny.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="boxes" id="plan">
+  <div class="wrap">
+    <h2>Plan pakowania na cztery tygodnie</h2>
+    <p class="lead">Wysyłamy go każdemu klientowi po rezerwacji. Dzięki niemu w dniu przeprowadzki nic nie stoi rozpakowane.</p>
+    <div class="weeks">
+      <article class="week"><p class="when">4 tygodnie przed</p><h3>Rzeczy sezonowe</h3><ul><li>ubrania zimowe lub letnie</li><li>książki, których nie czytasz</li><li>dekoracje świąteczne</li></ul></article>
+      <article class="week"><p class="when">2 tygodnie przed</p><h3>Szafy i półki</h3><ul><li>połowa kuchni</li><li>zdjęcia i obrazy</li><li>przepisanie liczników</li></ul></article>
+      <article class="week"><p class="when">3 dni przed</p><h3>Codzienne rzeczy</h3><ul><li>rozmrożenie lodówki</li><li>pudełko „pierwsza noc”</li><li>leki i dokumenty osobno</li></ul></article>
+      <article class="week"><p class="when">Dzień przeprowadzki</p><h3>Robimy resztę</h3><ul><li>przyjeżdżamy o 8:00</li><li>owijamy meble folią</li><li>sprawdzamy puste pokoje</li></ul></article>
+    </div>
+    <div class="areas"><span>Gdańsk</span><span>Sopot</span><span>Gdynia</span><span>Pruszcz Gdański</span><span>Rumia</span><span>Reda</span><span>cała Polska po wycenie</span></div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><p>Przenośnia, przeprowadzki. Gdańsk, tel. 58 000 00 00</p><p>Strona pokazowa przygotowana przez WebFolk. Firma i dane są fikcyjne.</p></div></footer>
+
+<script>
+(function(){
+  var f=document.getElementById('calc'),km=document.getElementById('km');
+  var sizes=[{base:450,hrs:3,crew:2,van:'Bus 12 m³',vol:12},{base:750,hrs:4,crew:3,van:'Bus 20 m³',vol:20},{base:1100,hrs:6,crew:3,van:'Auto 30 m³',vol:30},{base:1600,hrs:8,crew:4,van:'Auto 40 m³',vol:40}];
+  function zl(n){return Math.round(n/10)*10;}
+  function calc(){
+    var s=sizes[+f.querySelector('input[name="size"]:checked').value],d=+km.value;
+    var floors=+document.getElementById('from').value+(+document.getElementById('to').value);
+    var price=s.base+Math.max(0,d-10)*4.5+floors*s.vol*3.5,hrs=s.hrs+floors*0.4+d/40,crew=s.crew;
+    if(document.getElementById('pack').checked){price+=s.vol*22;hrs+=s.hrs*0.6;}
+    if(document.getElementById('furn').checked){price+=s.vol*9;hrs+=1;}
+    if(document.getElementById('piano').checked){price+=450;crew+=2;}
+    if(document.getElementById('weekend').checked){price*=1.15;}
+    var lo=zl(price*0.92),hi=zl(price*1.1);
+    document.getElementById('kmOut').textContent=d+' km';
+    document.getElementById('price').textContent=lo.toLocaleString('pl-PL')+' – '+hi.toLocaleString('pl-PL')+' zł';
+    document.getElementById('van').textContent=s.van;
+    document.getElementById('crew').textContent=crew+' osoby';
+    document.getElementById('hrs').textContent='ok. '+Math.round(hrs)+' h';
+    document.getElementById('note').textContent=floors?'Wnosimy po schodach łącznie '+floors+' '+(floors===1?'piętro':floors<5?'piętra':'pięter')+'. To najczęstsza przyczyna dłuższej przeprowadzki.':'Bez schodów to najszybsza możliwa przeprowadzka.';
+    document.getElementById('truck').style.transform='translateX('+Math.min(60,d/2)+'px)';
+  }
+  f.addEventListener('input',calc);f.addEventListener('change',calc);
+  document.getElementById('ask').onclick=function(){document.getElementById('sent').hidden=false;};
+  calc();
+})();
+</script>
+</body>
+</html>
